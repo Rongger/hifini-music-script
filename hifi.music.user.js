@@ -69,25 +69,29 @@ function insetPanel() {
   setPlayList(getPlayList());
   setTimeout(() => {
     // 点击开始自动播放
-    document.getElementById('start-auto-play-zs').addEventListener('click', () => {
-      const data = getPlayList();
-      if (Array.isArray(data) && data.length) {
-        window.open(data[0].href);
-        localStorage.setItem('play-list-index-zs', '0');
-      } else {
-        alert('请先去音乐列表添加音乐到播放列表');
-        location.href = 'https://www.hifini.com';
-      }
-    })
+    document
+      .getElementById('start-auto-play-zs')
+      .addEventListener('click', () => {
+        const data = getPlayList();
+        if (Array.isArray(data) && data.length) {
+          window.open(data[0].href);
+          localStorage.setItem('play-list-index-zs', '0');
+        } else {
+          alert('请先去音乐列表添加音乐到播放列表');
+          location.href = 'https://www.hifini.com';
+        }
+      });
     // 点击清空播放列表
-    document.getElementById('clear-play-list-zs').addEventListener('click', () => {
-      setPlayList([]);
-    })
+    document
+      .getElementById('clear-play-list-zs')
+      .addEventListener('click', () => {
+        setPlayList([]);
+      });
     // 点击关于进入音乐播放页面无法自动播放问题
     document.getElementById('tips-zs').addEventListener('click', () => {
       alert(`由于浏览器策略不同，可能不允许脚本驱动媒体播放，可以手动点击播放音乐按钮，次数多了浏览器会记住你的选择，则脚本驱动媒体播放不会再失败。
         您也可以手动开启浏览器对声音的设置，将该网站设置为允许播放声音。`);
-    })
+    });
     // 点击顺序播放、随机播放
     document.getElementById('order-play-zs').addEventListener('click', (e) => {
       const text = e.target.innerText;
@@ -99,12 +103,14 @@ function insetPanel() {
         document.getElementById('order-play-zs').innerText = '顺序播放';
         localStorage.setItem('play-order-zs', 'order');
       }
-    })
+    });
     // 勾选、取消勾选 播放完成在列表移除
-    document.getElementById('play-end-remove-zs').addEventListener('change', (e) => {
-      const checked = e.target.checked;
-      localStorage.setItem('play-end-remove-result', `${checked}`);
-    })
+    document
+      .getElementById('play-end-remove-zs')
+      .addEventListener('change', (e) => {
+        const checked = e.target.checked;
+        localStorage.setItem('play-end-remove-result', `${checked}`);
+      });
     // 点击收起按钮
     document.getElementById('fold-zs').addEventListener('click', (e) => {
       const panelELe = document.getElementById('play-list-panel-zs');
@@ -113,8 +119,8 @@ function insetPanel() {
       setTimeout(() => {
         panelELe.style.display = 'none';
         initFoldPanel();
-      }, 800)
-    })
+      }, 800);
+    });
 
     const localOrder = localStorage.getItem('play-order-zs');
     const checked = localStorage.getItem('play-end-remove-result');
@@ -124,7 +130,7 @@ function insetPanel() {
     if (`${checked}` === 'true') {
       document.getElementById('play-end-remove-zs').checked = true;
     }
-  }, 400)
+  }, 400);
 }
 
 // 初始化收起后的面板
@@ -137,19 +143,20 @@ function initFoldPanel() {
       document.getElementById('play-list-panel-zs').style.overflow = 'inherit';
       document.getElementById('play-list-panel-zs').style.display = 'block';
       document.getElementById('play-list-panel-zs').style.width = '240px';
-    })
+    });
   } else {
     const body = document.getElementById('body');
     const divDom = document.createElement('div');
     divDom.setAttribute('id', 'fold-panel-zs');
-    divDom.style = 'position: fixed;top: 100px;left: 0;width: 40px;height: 40px;border-radius: 50%;background: #b1cde4;font-size: 12px;z-index: 1001;cursor: pointer;text-align: center;line-height: 40px;';
+    divDom.style =
+      'position: fixed;top: 100px;left: 0;width: 40px;height: 40px;border-radius: 50%;background: #b1cde4;font-size: 12px;z-index: 1001;cursor: pointer;text-align: center;line-height: 40px;';
     divDom.innerText = '展开';
     divDom.addEventListener('click', () => {
       divDom.style.display = 'none';
       document.getElementById('play-list-panel-zs').style.overflow = 'inherit';
       document.getElementById('play-list-panel-zs').style.display = 'block';
       document.getElementById('play-list-panel-zs').style.width = '240px';
-    })
+    });
     body ? body.appendChild(divDom) : '';
   }
 }
@@ -170,7 +177,7 @@ function init() {
       btnEle.addEventListener('click', (e) => {
         e.stopPropagation();
         next();
-      })
+      });
       playerEle.appendChild(btnEle);
       document.querySelector('.aplayer-icon-play').click();
       watchPlayEnd();
@@ -180,10 +187,10 @@ function init() {
           const list = JSON.parse(alreadyPlayList);
           list.push({
             pathname: location.pathname,
-            timeStamp: new Date().getTime()
+            timeStamp: new Date().getTime(),
           });
-          const _list = list.filter(i => {
-            return (new Date().getTime() - i.timeStamp) < 60 * 30 * 1000;
+          const _list = list.filter((i) => {
+            return new Date().getTime() - i.timeStamp < 60 * 30 * 1000;
           });
           console.log('有已播放列表，收录，且过滤列表中超过半小时的项', _list);
           localStorage.setItem('already-play-list', JSON.stringify(_list));
@@ -192,37 +199,50 @@ function init() {
         }
       } else {
         console.log('无已播放列表，收录第一首');
-        localStorage.setItem('already-play-list', JSON.stringify([{ pathname: location.pathname, timeStamp: new Date().getTime() }]));
+        localStorage.setItem(
+          'already-play-list',
+          JSON.stringify([
+            { pathname: location.pathname, timeStamp: new Date().getTime() },
+          ])
+        );
       }
     }, 1000);
-  } else { // 外层音乐列表页面
+  } else {
+    // 外层音乐列表页面
     try {
-      let ulEle = Array.from(document.querySelector('.card-body').children[0].children).filter(i => i.tagName === 'LI');
+      let ulEle = Array.from(
+        document.querySelector('.card-body').children[0].children
+      ).filter((i) => i.tagName === 'LI');
       if (location.href.indexOf('search') !== -1) {
-        ulEle = Array.from(document.querySelector('.search .card-body').children[0].children).filter(i => i.tagName === 'LI');
+        ulEle = Array.from(
+          document.querySelector('.search .card-body').children[0].children
+        ).filter((i) => i.tagName === 'LI');
       }
-      ulEle.forEach(it => {
+      ulEle.forEach((it) => {
         const mediaEle = getNodeByClassName(it.children, 'media-body');
         const subjectEle = getNodeByClassName(mediaEle.children, 'subject');
         const btnEle = document.createElement('button');
         btnEle.style = 'margin-left: 20px;cursor: pointer;';
         btnEle.innerHTML = '添加到播放列表';
         btnEle.setAttribute('data-href', subjectEle.children[0].href || '');
-        btnEle.setAttribute('data-name', subjectEle.children[0].innerText || '');
+        btnEle.setAttribute(
+          'data-name',
+          subjectEle.children[0].innerText || ''
+        );
         btnEle.addEventListener('click', (e) => {
           e.stopPropagation();
           const href = e.target.dataset.href;
           const name = e.target.dataset.name;
           const playList = getPlayList();
-          if (playList.find(i => i.href === href)) return;
+          if (playList.find((i) => i.href === href)) return;
           playList.push({
             name,
-            href
-          })
+            href,
+          });
           setPlayList(playList);
-        })
+        });
         subjectEle.appendChild(btnEle);
-      })
+      });
     } catch (error) {
       console.log("插入'添加到播放列表'按钮失败:", error);
       alert("插入'添加到播放列表'按钮失败");
@@ -256,34 +276,46 @@ function setPlayList(data) {
           data-href="${it.href}"
           data-type="play"
           data-index="${idx}"
-          style="overflow: hidden;width: 160px;word-break: break-all;white-space: nowrap;text-overflow: ellipsis;cursor: pointer;color: ${index && +index === idx ? 'blue' : '#212529'};"
+          style="overflow: hidden;width: 160px;word-break: break-all;white-space: nowrap;text-overflow: ellipsis;cursor: pointer;color: ${
+            index && +index === idx ? 'blue' : '#212529'
+          };"
         >
           ${it.name}
         </span>
-        <span data-href="${it.href}" data-type="del" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">删除</span>
-        <span data-href="${it.href}" data-type="move-up" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">上移</span>
-        <span data-href="${it.href}" data-type="move-down" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">下移</span>
+        <span data-href="${
+          it.href
+        }" data-type="del" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">删除</span>
+        <span data-href="${
+          it.href
+        }" data-type="move-up" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">上移</span>
+        <span data-href="${
+          it.href
+        }" data-type="move-down" data-index="${idx}" style="white-space: nowrap;color: #9a2121;cursor: pointer;margin-left: 4px;">下移</span>
       </div>
       `;
-    })
+    });
     divEle.innerHTML = html;
-    divEle.addEventListener('click', e => {
+    divEle.addEventListener('click', (e) => {
       const { type, href, index } = e.target.dataset;
       const list = getPlayList();
-      if (type === 'play') { // 播放
+      if (type === 'play') {
+        // 播放
         location.href = href;
         localStorage.setItem('play-list-index-zs', index);
-      } else if (type === 'del') { // 删除
+      } else if (type === 'del') {
+        // 删除
         list.splice(+index, 1);
         setPlayList(list);
-      } else if (type === 'move-up') { // 上移
+      } else if (type === 'move-up') {
+        // 上移
         if (+index) {
           const snap = list[+index];
           list[+index] = list[+index - 1];
           list[+index - 1] = snap;
           setPlayList(list);
         }
-      } else if (type === 'move-down') { // 下移
+      } else if (type === 'move-down') {
+        // 下移
         if (+index < list.length - 1) {
           const snap = list[+index];
           list[+index] = list[+index + 1];
@@ -291,12 +323,13 @@ function setPlayList(data) {
           setPlayList(list);
         }
       }
-    })
+    });
     ele.appendChild(divEle);
   }
   if (Array.isArray(data) && !data.length) {
     const ele = document.getElementById('diy-play-list');
-    ele.innerHTML = '<span style="color: #000;">播放列表</span><span style="color: #333;">播放列表暂无添加音乐</span>';
+    ele.innerHTML =
+      '<span style="color: #000;">播放列表</span><span style="color: #333;">播放列表暂无添加音乐</span>';
   }
 }
 
@@ -326,15 +359,15 @@ function watchPlayEnd() {
       const end = computedTime(dtime);
       const start = computedTime(ptime);
 
-      if (start === end || start === (end - 1)) {
+      if (start === end || start === end - 1) {
         clearInterval(timer);
-        document.querySelector('.aplayer-icon-pause').click()
+        document.querySelector('.aplayer-icon-pause').click();
         next();
       }
     } catch (error) {
       clearInterval(timer);
     }
-  }, 1000)
+  }, 1000);
 }
 
 // 下一首
@@ -358,7 +391,10 @@ function next() {
         try {
           const list = JSON.parse(alreadyPlayList);
           let count = 0;
-          while (list.find(i => data[sindex - 1].href.includes(i.pathname)) && count <= 5) {
+          while (
+            list.find((i) => data[sindex - 1].href.includes(i.pathname)) &&
+            count <= 5
+          ) {
             sindex = Random(1, data.length);
             console.log('重新随机生成 ', sindex);
             count++;
@@ -370,7 +406,8 @@ function next() {
       console.log('最终随机播放url：', sindex, data[sindex - 1].href);
       location.href = data[sindex - 1].href;
       localStorage.setItem('play-list-index-zs', sindex - 1);
-    } else { // 顺序播放
+    } else {
+      // 顺序播放
       if (data.length === +index + 1) {
         location.href = data[0].href;
         localStorage.setItem('play-list-index-zs', '0');
