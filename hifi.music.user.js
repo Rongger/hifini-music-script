@@ -24,11 +24,14 @@ function insetPanel() {
   // if (location.href.indexOf('thread') !== -1) return;
   const body = document.getElementById('body');
   const panel = `
-    <div id="play-list-panel-zs" style="position: fixed;top: 100px;left: 0;width: 240px;background: #b1cde4;border-bottom-right-radius: 5px;border-top-right-radius: 5px; padding: 6px 8px;font-size: 12px;z-index: 1001;transition: width 2s, height 2s;">
+    <div id="play-list-panel-zs" style="position: fixed;top: 65px;left: 0;width: 240px;background: #b1cde4;border-bottom-right-radius: 5px;border-top-right-radius: 5px; padding: 6px 8px;font-size: 12px;z-index: 1001;transition: width 2s, height 2s;">
       <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;height: 30px;border-bottom: 1px solid #333;">
         <span id="start-auto-play-zs" style="color: #333;cursor: pointer;">开始自动播放</span>
         <span style="width: 1px;height: 8px;background: #333;"></span>
         <span id="clear-play-list-zs" style="color: #333;cursor: pointer;">清空播放列表</span>
+      </div>
+      <div style="display: flex;align-items: center;justify-content: space-between;width: 100%;height: 30px;border-bottom: 1px solid #333;">
+        <span id="add-whole-list" style="color: #333;cursor: pointer;">添加整页列表</span>
       </div>
       <div style="display: flex;align-items: center;flex-wrap: wrap;width: 100%;height: 30px;border-bottom: 1px solid #333;">
         <span id="order-play-zs" style="margin-right: 8px;cursor: pointer;">顺序播放</span>
@@ -87,6 +90,14 @@ function insetPanel() {
       .addEventListener('click', () => {
         setPlayList([]);
       });
+    //一键添加到播放列表
+    document.getElementById('add-whole-list').addEventListener('click', () => {
+      document.querySelectorAll('button').forEach((i) => {
+        if (i.textContent === '添加到播放列表') {
+          i.click();
+        }
+      });
+    });
     // 点击关于进入音乐播放页面无法自动播放问题
     document.getElementById('tips-zs').addEventListener('click', () => {
       alert(`由于浏览器策略不同，可能不允许脚本驱动媒体播放，可以手动点击播放音乐按钮，次数多了浏览器会记住你的选择，则脚本驱动媒体播放不会再失败。
